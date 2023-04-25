@@ -52,7 +52,8 @@ pipeline {
                 failure{
                     emailext to: "${RECIPIENT_EMAIL}",
                     subject: "Security Scan Email",
-                    body: "Security Scan failed!"
+                    body: "Security Scan failed!",
+                    attachLog: true
                 }
             }
         }
@@ -69,12 +70,14 @@ pipeline {
                 success{
                     emailext to: "${RECIPIENT_EMAIL}",
                     subject: "Integration Tests on Staging Email",
-                    body: "Integration Tests on Staging succesful!"
+                    body: "Integration Tests on Staging succesful!",
+                    attachLog: true
                 }
                 failure{
                     emailext to: "${RECIPIENT_EMAIL}",
                     subject: "Integration Tests on Staging Email",
-                    body: "Integration Tests on Staging failed!"
+                    body: "Integration Tests on Staging failed!",
+                    attachLog: true
                 }
             }
         }
