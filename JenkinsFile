@@ -23,9 +23,14 @@ pipeline {
             }
             post{
                 success{
-                    mail to: "${RECIPIENT_EMAIL}",
-                    subject: "Build status email",
-                    body: "test body"
+                    emailext to: "${RECIPIENT_EMAIL}",
+                    subject: "Unit and Integration Tests Email",
+                    body: "Unit and Integration Tests succesful!"
+                }
+                failure{
+                    emailext to: "${RECIPIENT_EMAIL}",
+                    subject: "Unit and Integration Tests Email",
+                    body: "Unit and Integration Tests failed!"
                 }
             }
         }
@@ -38,6 +43,18 @@ pipeline {
             steps{
                 echo "Scan the code"
             }
+            post{
+                success{
+                    emailext to: "${RECIPIENT_EMAIL}",
+                    subject: "Security Scan Email",
+                    body: "Security Scan succesful!"
+                }
+                failure{
+                    emailext to: "${RECIPIENT_EMAIL}",
+                    subject: "Security Scan Email",
+                    body: "Security Scan failed!"
+                }
+            }
         }
         stage('Deploy to Staging'){
             steps{
@@ -47,6 +64,18 @@ pipeline {
         stage('Integration Tests on Staging'){
             steps{
                 echo "tests on stagin"
+            }
+            post{
+                success{
+                    emailext to: "${RECIPIENT_EMAIL}",
+                    subject: "Integration Tests on Staging Email",
+                    body: "Integration Tests on Staging succesful!"
+                }
+                failure{
+                    emailext to: "${RECIPIENT_EMAIL}",
+                    subject: "Integration Tests on Staging Email",
+                    body: "Integration Tests on Staging failed!"
+                }
             }
         }
         stage('Deploy to Production'){
