@@ -72,7 +72,7 @@ pipeline {
         stage('Deploy to Staging'){
             steps{
                 echo "Deploying to staging server using AWS Elastic Beanstalk"
-                echo: "Staging Environment: $STAGING_ENVIRONMENT"
+                echo "Staging Environment: $STAGING_ENVIRONMENT"
             }
         }
         stage('Integration Tests on Staging'){
