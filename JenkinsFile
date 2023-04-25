@@ -25,11 +25,8 @@ pipeline {
                 success{
                     mail to: "${RECIPIENT_EMAIL}",
                     subject: "Build status email",
-                    body: """<p>${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - Test Stage</p>
-                                <p>Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
-                    attachLog: true
+                    body: "test body"
                 }
-
             }
         }
         stage('Code Analysis'){
@@ -41,9 +38,6 @@ pipeline {
             steps{
                 echo "Scan the code"
             }
-            post{
-
-            }
         }
         stage('Deploy to Staging'){
             steps{
@@ -53,9 +47,6 @@ pipeline {
         stage('Integration Tests on Staging'){
             steps{
                 echo "tests on stagin"
-            }
-            post{
-
             }
         }
         stage('Deploy to Production'){
