@@ -41,7 +41,7 @@ pipeline {
         }
         stage('Security Scan'){
             steps{
-                ech "Scan the code"
+                echo "Scan the code"
             }
             post{
                 success{
