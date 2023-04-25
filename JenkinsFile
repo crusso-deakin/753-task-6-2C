@@ -15,16 +15,13 @@ pipeline {
                 echo "Build the code using Maven"
                 echo "Command to be used: sh 'mvn test'"
             }
-            post {
-                always {
-                    echo 'Sending test stage email notification...'
-                    emailext(
-                        to: "${RECIPIENT_EMAIL}",
-                        subject: "${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - Test Stage",
-                        body: """<p>${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - Test Stage</p>
+            post{
+                success{
+                    mail to: "${RECIPIENT_EMAIL}",
+                    subject: "Build status email",
+                    body: """<p>${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - Test Stage</p>
                                 <p>Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
-                        attachLog: true
-                    )
+                    attachLog: true
                 }
             }
         stage('Unit and Integration Tests') {
