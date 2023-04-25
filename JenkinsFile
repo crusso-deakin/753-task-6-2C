@@ -2,9 +2,10 @@ pipeline {
     agent any
 
     environment {
-        DIRECTORY_PATH = "C:/Path"
-        TESTING_ENVIRONMENT = "Christian Testing Environment"
-        PRODUCTION_ENVIRONMENT = "Christian Enviroment"
+        DIRECTORY_PATH = "C:/Code/source"
+        TESTING_ENVIRONMENT = "Task 6.2 Testing Environment"
+        STAGING_ENVIRONMENT = "AWS EC2 - Staging"
+        PRODUCTION_ENVIRONMENT = "AWS EC2 - Production"
         RECIPIENT_EMAIL = "s223446607@deakin.edu.au"
         SENDER_EMAIL = "crusso.deakin@gmail.com"
     }
@@ -14,12 +15,13 @@ pipeline {
             steps{
                 echo "Fetch the source code from the directory path specified by the environment variable: $DIRECTORY_PATH"
                 echo "Build the code using Maven"
-                echo "Command to be used: sh 'mvn test'"
+                echo "Command to be used: sh 'mvn package'"
             }
         }
         stage('Unit and Integration Tests'){
             steps{
-                echo "Unit tests"
+                echo "Unit tests with Maven"
+                echo "Command to be used: sh 'mvn test'"
                 echo "Integration tests"
             }
             post{
@@ -41,12 +43,14 @@ pipeline {
         }
         stage('Code Analysis'){
             steps{
-                echo "Check the quality of the code"
+                echo "Conducting code analysis with SonarQube"
+                echo "Command to be used: sh 'mvn sonar:sonar'"
             }
         }
         stage('Security Scan'){
             steps{
-                echo "Scan the code"
+                echo "Performing security scan with OWOWASP Dependency-Check"
+                echo "Command to be used: sh 'mvn org.owasp:dependency-check-maven:check'"
             }
             post{
                 success{
@@ -67,12 +71,13 @@ pipeline {
         }
         stage('Deploy to Staging'){
             steps{
-                echo "deploy to staging"
+                echo "Deploying to staging server using AWS Elastic Beanstalk"
+                echo: "Staging Environment: $STAGING_ENVIRONMENT"
             }
         }
         stage('Integration Tests on Staging'){
             steps{
-                echo "tests on stagin"
+                echo "Performing integration tests in the staging environment using Maven"
             }
             post{
                 success{
@@ -93,7 +98,8 @@ pipeline {
         }
         stage('Deploy to Production'){
             steps{
-                echo "deploy to production"
+                echo "Deploying to production environment AWS Elastic Beanstalk"
+                echo "Production Environment: $PRODUCTION_ENVIRONMENT"
             }
         }
     }
