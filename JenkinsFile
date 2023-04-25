@@ -6,8 +6,7 @@ pipeline {
         TESTING_ENVIRONMENT = "Christian Testing Environment"
         PRODUCTION_ENVIRONMENT = "Christian Enviroment"
         RECIPIENT_EMAIL = "s223446607@deakin.edu.au"
-        SENDER_DESCRIPTION = "Jenkins Notifications"
-        REPLY_EMAIL = "crusso.deakin@gmail.com"
+        SENDER_EMAIL = "crusso.deakin@gmail.com"
     }
 
     stages{
@@ -26,16 +25,14 @@ pipeline {
             post{
                 success{
                     emailext to: "${RECIPIENT_EMAIL}",
-                    from: "${SENDER_DESCRIPTION}",
-                    replyTo: "${REPLY_EMAIL}",
+                    from: "${SENDER_EMAIL}",
                     subject: "Unit and Integration Tests Email",
                     body: "Unit and Integration Tests succesful!",
                     attachLog: true
                 }
                 failure{
                     emailext to: "${RECIPIENT_EMAIL}",
-                    from: "${SENDER_DESCRIPTION}",
-                    replyTo: "${REPLY_EMAIL}",
+                    from: "${SENDER_EMAIL}",
                     subject: "Unit and Integration Tests Email",
                     body: "Unit and Integration Tests failed!",
                     attachLog: true
@@ -54,16 +51,14 @@ pipeline {
             post{
                 success{
                     emailext to: "${RECIPIENT_EMAIL}",
-                    from: "${SENDER_DESCRIPTION}",
-                    replyTo: "${REPLY_EMAIL}",
+                    from: "${SENDER_EMAIL}",
                     subject: "Security Scan Email",
                     body: "Security Scan succesful!",
                     attachLog: true
                 }
                 failure{
                     emailext to: "${RECIPIENT_EMAIL}",
-                    from: "${SENDER_DESCRIPTION}",
-                    replyTo: "${REPLY_EMAIL}",
+                    from: "${SENDER_EMAIL}",
                     subject: "Security Scan Email",
                     body: "Security Scan failed!",
                     attachLog: true
@@ -82,16 +77,14 @@ pipeline {
             post{
                 success{
                     emailext to: "${RECIPIENT_EMAIL}",
-                    from: "${SENDER_DESCRIPTION}",
-                    replyTo: "${REPLY_EMAIL}",
+                    from: "${SENDER_EMAIL}",
                     subject: "Integration Tests on Staging Email",
                     body: "Integration Tests on Staging succesful!",
                     attachLog: true
                 }
                 failure{
                     emailext to: "${RECIPIENT_EMAIL}",
-                    from: "$SENDER_DESCRIPTION}",
-                    replyTo: "${REPLY_EMAIL}",
+                    from: "${SENDER_EMAIL}",
                     subject: "Integration Tests on Staging Email",
                     body: "Integration Tests on Staging failed!",
                     attachLog: true
