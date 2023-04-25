@@ -5,6 +5,7 @@ pipeline {
         DIRECTORY_PATH = 'C:/Path'
         TESTING_ENVIRONMENT = 'Christian Testing Environment'
         PRODUCTION_ENVIRONMENT = 'Christian Enviroment'
+        RECIPIENT_EMAIL = 's223446607@deakin.edu.au'
     }
 
     stages{
@@ -14,7 +15,18 @@ pipeline {
                 echo "Build the code using Maven"
                 echo "Command to be used: sh 'mvn test'"
             }
-        }
+            post {
+                always {
+                    echo 'Sending test stage email notification...'
+                    emailext(
+                        to: "${RECIPIENT_EMAIL}",
+                        subject: "${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - Test Stage",
+                        body: """<p>${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - Test Stage</p>
+                                <p>Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
+                        attachLog: true
+                    )
+                }
+            }
         stage('Unit and Integration Tests') {
             steps{
                 echo "Unit tests"
